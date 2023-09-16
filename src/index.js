@@ -1,6 +1,5 @@
 const Player = require('../src/player');
 const ComputerPlayer = require('../src/computerPlayer');
-const GameBoard = require('../src/GameBoard');
 
 document.addEventListener('DOMContentLoaded', () => {
     const playerBoardElement = document.getElementById('player-board');
@@ -13,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const computerPlayer = new ComputerPlayer();
 
     function renderGameBoards(playerBoard, enemyBoard) {
-    
+        
         // Clear the boards
         playerBoardElement.innerHTML = '';
         computerBoardElement.innerHTML = '';
@@ -42,6 +41,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 } else if (cellValue === 'X') {
                     cell.classList.add('hit'); // Add class to display hits
                 }
+
+
                 
                 cell.addEventListener('click', () => {
                     if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) {
@@ -50,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                         // Luego, puedes realizar el ataque llamando al método 'attack' del jugador
                         const attackResult = player.attack(computerPlayer.gameBoard, clickedX, clickedY);
+
                 
                         // Verificar el resultado del ataque y mostrar un mensaje al jugador
                         if (!attackResult) {
@@ -57,29 +59,29 @@ document.addEventListener('DOMContentLoaded', () => {
                         } else {
                             messageElement.textContent = '¡Has acertado un barco!';
                         }
-                
-                        // Renderizar los tableros actualizados después del ataque
-                        renderGameBoards(player.gameBoard.grid, computerPlayer.gameBoard.grid);
+                       
                     }
+                    
+                    renderGameBoards(player.gameBoard.grid, computerPlayer.gameBoard.grid);
                 });
                             
-
-
-    
                 containerElement.appendChild(cell);
             }
         }
     }
 
 
-    
 
     startGameButton.addEventListener('click', () => {
         player.gameBoard.populateComputerBoard();
         computerPlayer.gameBoard.populateComputerBoard();
         renderGameBoards(player.gameBoard.grid, computerPlayer.gameBoard.grid);
 
+        messageElement.textContent = '';
+
+        startGameButton.classList.add('hide');
     });
+  
 
     
 
