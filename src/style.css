@@ -1,0 +1,42 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.game-container {
+    display: flex;
+}
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    width: 300px;
+    margin: 50px;
+}
+
+.cell {
+    width: 30px; /* Adjust the width and height as needed */
+    height: 30px;
+    border: 1px solid #000; /* Add borders for cell separation */
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ship {
+    background-color: #3498db;
+    color: white;
+}
+
+.hit {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.miss {
+    background-color: #f1c40f;
+    color: #333;
+}
