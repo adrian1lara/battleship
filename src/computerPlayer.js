@@ -7,15 +7,10 @@ class ComputerPlayer {
     }
 
     attack(enemyBoard) {
-        let x, y;
-        do {
-            x = Math.floor(Math.random() * 10);
-            y = Math.floor(Math.random() * 10);
-        } while(enemyBoard.grid[x][y] !== null);
-
-        enemyBoard.receiveAttack(x, y);
+        return enemyBoard.receiveAttack(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10));
     }
+
 
 }
 
-module.exports = ComputerPlayer
+module.exports = ComputerPlayer;
