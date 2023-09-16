@@ -57,17 +57,17 @@ class GameBoard {
         const cell = this.grid[x][y];
     
         if (!cell) {
-            if (cell === 'o' || cell === 'x') {
+            if (cell === 'o' || cell === 'X') {
                 return 'Already Attacked'; // Ya atacado previamente
             }
     
             this.grid[x][y] = 'o'; // Establecer la celda como 'o' para representar un fallo
             this.misses++;
             return false; // Fallo
-        } else if (cell === 'x') {
+        } else if (cell === 'X') {
             return 'Already Hit'; // Barco ya golpeado
         } else if (cell === 'S') {
-            this.grid[x][y] = 'x'; // Establecer la celda como 'x' para representar un acierto
+            this.grid[x][y] = 'X'; // Establecer la celda como 'x' para representar un acierto
             this.hits++; // Incrementar aciertos en el tablero
             return true; // Acierto
         }
@@ -90,13 +90,16 @@ class GameBoard {
         }
     }
 
-    isOccupied(x, y) {
-        if (x < 0 || x >= 10 || y < 0 || y >= 10) {
-            return false; // La posición está fuera del tablero
+    isGameOver() {
+        for (const ship of this.ships) {
+            if (!ship.isSunk()) {
+                return false;
+            }
         }
 
-        return this.grid[x][y] !== null; // Devuelve true si hay un barco en la posición (x, y)
+        return true;
     }
+
 }
 
 module.exports = GameBoard;
