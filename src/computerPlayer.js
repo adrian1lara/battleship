@@ -1,4 +1,4 @@
-const GameBoard = require('./GameBoard')
+const GameBoard = require('./GameBoard');
 
 class ComputerPlayer {
     constructor() {
@@ -7,10 +7,16 @@ class ComputerPlayer {
     }
 
     attack(enemyBoard) {
-        return enemyBoard.receiveAttack(Math.floor(Math.random() * 10), Math.floor(Math.random() * 10));
+        let x, y;
+
+        do {
+            x = Math.floor(Math.random() * 10);
+            y = Math.floor(Math.random() * 10);
+        } while (this.attackedCoordinates.has(`${x}-${y}`));
+
+        this.attackedCoordinates.add(`${x}-${y}`);
+        return enemyBoard.receiveAttack(x, y);
     }
-
-
 }
 
 module.exports = ComputerPlayer;
