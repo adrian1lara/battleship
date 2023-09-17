@@ -1,4 +1,3 @@
-
 const GameBoard = require('./GameBoard');
 
 class Player {
@@ -6,17 +5,10 @@ class Player {
         this.playerName = name;
         this.gameBoard = new GameBoard();
     }
-    get name() {
-        return this.playerName;
-    }
 
     attack(enemyBoard, x, y) {
         return enemyBoard.receiveAttack(x, y);
     }
-
-    
 }
 
-
-
-module.exports = Player
+module.exports = Player;
