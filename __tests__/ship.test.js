@@ -16,7 +16,7 @@ describe('Ship', () => {
     });
 
     test('it should not be sunk yet', () => {
-        expect(ship.isSunk).toBe(false);
+        expect(ship.isSunk()).toBe(false);
     });
 
     test('it should register hit correctly', () => {
@@ -34,7 +34,7 @@ describe('Ship', () => {
         ship.hit();
         ship.hit();
         ship.hit();
-        expect(ship.isSunk).toBe(true);
+        expect(ship.isSunk()).toBe(true);
     });
 
     test('it should not register a after being sunk', () => { 

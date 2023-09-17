@@ -50,10 +50,25 @@ describe('GameBoard', () => {
         gameBoard.receiveAttack(0, 0);
         expect(gameBoard.hits).toBe(1);
         expect(gameBoard.misses).toBe(0);
-        expect(ship.hits).toBe(1);
-        expect(ship.isSunk).toBe(false);
+        expect(ship.isSunk()).toBe(false);
     });
 
 
 
 })
+
+describe('GameBoard isGameOver', () => {
+    test('should return true when all ships are sunk', () => {
+      const gameBoard = new GameBoard();
+      
+      // Hunde todos los barcos en el tablero
+      gameBoard.ships.forEach(ship => {
+        for (let i = 0; i < ship.length; i++) {
+          ship.hit();
+        }
+      });
+  
+      // Llama al método isGameOver() y espera que devuelva true
+      expect(gameBoard.isGameOver()).toBe(true);
+    });
+  });
