@@ -1,88 +1,86 @@
-const Player = require('../src/player');
-const ComputerPlayer = require('../src/computerPlayer');
+const Player = require('./Player');
+const ComputerPlayer = require('./ComputerPlayer');
+const Ship = require('./ship');
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const playerBoardElement = document.getElementById('player-board');
     const computerBoardElement = document.getElementById('computer-board');
     const messageElement = document.getElementById('message');
     const startGameButton = document.getElementById('start-game');
-    const takeTurnButton = document.getElementById('take-turn');
 
     const player = new Player('Player 1');
     const computerPlayer = new ComputerPlayer();
 
-    function renderGameBoards(playerBoard, enemyBoard) {
-        
-        // Clear the boards
-        playerBoardElement.innerHTML = '';
-        computerBoardElement.innerHTML = '';
-    
-        // Render player's game board
-        renderBoard(playerBoard, playerBoardElement);
-    
-        // Render enemy's game board
-        renderBoard(enemyBoard, computerBoardElement);
+    function renderGameBoards() {
+        renderBoard(player.gameBoard.grid, playerBoardElement, 'player');
+        renderBoard(computerPlayer.gameBoard.grid, computerBoardElement, 'computer');
     }
-    
-    function renderBoard(board, containerElement) {
+
+    function renderBoard(board, containerElement, playerName) {
+        containerElement.innerHTML = '';
+
         for (let x = 0; x < 10; x++) {
             for (let y = 0; y < 10; y++) {
                 const cell = document.createElement('div');
                 cell.classList.add('cell');
-                cell.setAttribute('data-x', x); // Agregar el atributo data-x
-                cell.setAttribute('data-y', y); // Agregar el atributo data-y
-    
-                // Check the cell value
+                cell.dataset.x = x;
+                cell.dataset.y = y;
+
                 const cellValue = board[x][y];
-                if (cellValue === 'S') {
-                    cell.classList.add('ship'); // Add class to display ships
-                } else if (cellValue === 'o') {
-                    cell.classList.add('miss'); // Add class to display misses
-                } else if (cellValue === 'X') {
-                    cell.classList.add('hit'); // Add class to display hits
+                cell.textContent = cellValue;
+
+                if (cellValue === 'S' && playerName === 'computer') {
+                    cell.textContent = ''; // Hide computer's ships
                 }
 
-
-                
                 cell.addEventListener('click', () => {
                     if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) {
-                        const clickedX = parseInt(cell.getAttribute('data-x')); // Obtener data-x
-                        const clickedY = parseInt(cell.getAttribute('data-y')); // Obtener data-y
-                
-                        // Luego, puedes realizar el ataque llamando al método 'attack' del jugador
-                        const attackResult = player.attack(computerPlayer.gameBoard, clickedX, clickedY);
+                        const clickedX = parseInt(cell.dataset.x);
+                        const clickedY = parseInt(cell.dataset.y);
 
-                
-                        // Verificar el resultado del ataque y mostrar un mensaje al jugador
-                        if (!attackResult) {
-                            messageElement.textContent = '¡Has fallado!';
-                        } else {
+                        const attackResult = player.attack(computerPlayer.gameBoard, clickedX, clickedY);
+                        computerPlayer.attack(player.gameBoard);
+
+                        if (attackResult) {
                             messageElement.textContent = '¡Has acertado un barco!';
+                        } else {
+                            messageElement.textContent = '¡Has fallado!';
                         }
-                       
+
+                        if (player.gameBoard.isGameOver() || computerPlayer.gameBoard.isGameOver()) {
+                            endGame();
+                        }
+
+                        renderGameBoards();
                     }
-                    
-                    renderGameBoards(player.gameBoard.grid, computerPlayer.gameBoard.grid);
                 });
-                            
+
                 containerElement.appendChild(cell);
             }
         }
     }
 
+    function endGame() {
+        messageElement.textContent = '¡Fin del juego!';
 
+        const cells = document.querySelectorAll('.cell');
+        cells.forEach(cell => {
+            cell.removeEventListener('click', handleClick);
+        });
+
+        startGameButton.classList.remove('hide');
+    }
 
     startGameButton.addEventListener('click', () => {
         player.gameBoard.populateComputerBoard();
         computerPlayer.gameBoard.populateComputerBoard();
-        renderGameBoards(player.gameBoard.grid, computerPlayer.gameBoard.grid);
+        renderGameBoards();
 
         messageElement.textContent = '';
 
         startGameButton.classList.add('hide');
     });
-  
 
-    
-
+    renderGameBoards();
 });
