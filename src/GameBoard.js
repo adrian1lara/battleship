@@ -1,4 +1,4 @@
-const { createDefaultShip } = require('./ship');
+const Ship = require('./ship');
 
 class GameBoard {
     constructor() {
@@ -7,7 +7,7 @@ class GameBoard {
         );
         this.hits = 0;
         this.misses = 0;
-        this.ships = [];
+        this.ships = Ship.createDefaultShip();
     }
 
     placeShips(ship, x, y, horizontal) {
@@ -58,7 +58,7 @@ class GameBoard {
     
         if (!cell) {
             if (cell === 'o' || cell === 'X') {
-                return 'Already Attacked'; // Ya atacado previamente
+                return ; // Ya atacado previamente
             }
     
             this.grid[x][y] = 'o'; // Establecer la celda como 'o' para representar un fallo
@@ -74,9 +74,7 @@ class GameBoard {
     }
 
     populateComputerBoard() {
-        const defaultShips = createDefaultShip(); 
-
-        for (const ship of defaultShips) {
+        for (const ship of this.ships) {
             let placed = false;
             while (!placed) {
                 const x = Math.floor(Math.random() * 10);
@@ -96,10 +94,8 @@ class GameBoard {
                 return false;
             }
         }
-
         return true;
     }
-
 }
 
 module.exports = GameBoard;
