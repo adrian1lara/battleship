@@ -66,6 +66,13 @@ header>div {
     align-items: center;
 }
 
+.name {
+    color: #FFC436;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 30px;
+}
+
 @media screen and (max-width: 600px) {
     .game-container {
         flex-direction: column;
