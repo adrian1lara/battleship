@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const computerBoardElement = document.getElementById('computer-board');
     const messageElement = document.getElementById('message');
     const startGameButton = document.getElementById('start-game');
+    const controlsElement = document.getElementById('controls');
 
     let player;
     let computerPlayer;
@@ -17,6 +18,9 @@ document.addEventListener('DOMContentLoaded', () => {
         computerPlayer = new ComputerPlayer();
         initializeBoards();
         renderGameBoards();
+
+        startGameButton.innerHTML = '';
+        startGameButton.textContent = 'Start new game';
     }
     function initializeBoards() {
         player.gameBoard.populateComputerBoard();
@@ -72,10 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                         if (attackResult) {
                             computerPlayer.attack(player.gameBoard);
-                            messageElement.textContent = '¡Has acertado un barco!';
                         } else {
                             computerPlayer.attack(player.gameBoard);
-                            messageElement.textContent = '¡Has fallado!';
                         }
                 
                         if (player.gameBoard.isGameOver() || computerPlayer.gameBoard.isGameOver()) {
@@ -100,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
             messageElement.textContent = '¡Ganaste!';
         }
         
-        startGameButton.classList.remove('hide');
+        controlsElement.classList.remove('hide');
         
         const cells = document.querySelectorAll('.cell');
         cells.forEach(cell => {
@@ -118,8 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
 
         messageElement.textContent = '';
-
-        startGameButton.classList.add('hide');
+        
+        controlsElement.classList.add('hide');
 
     });
 });
