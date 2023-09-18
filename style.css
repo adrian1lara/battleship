@@ -1,0 +1,122 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: #040D12;
+}
+
+header {
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 2px #FFC436;
+    
+}
+
+header>div {
+    background-color: #183D3D;
+    color: #FFC436;
+    padding: 10px;
+}
+
+.controls {
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2rem;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    font-weight: bold;  
+    text-transform: uppercase;
+}
+.message {
+    background-color: #183D3D;
+    padding: 1em;
+    border-radius: 5px;
+    color: #FFC436;
+    margin: 10px;
+}
+
+.start-game {
+    padding: 2rem;
+    background-color: #183D3D;
+    font-size: 1.2rem;
+    font-weight: bold;  
+    text-transform: uppercase;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #FFC436;
+    margin: 10px;
+    z-index: 999;
+}
+
+
+
+.game-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.name {
+    color: #FFC436;
+    text-transform: uppercase;
+    text-align: center;
+    margin-top: 30px;
+}
+
+@media screen and (max-width: 600px) {
+    .game-container {
+        flex-direction: column;
+    }
+}
+    
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    margin: 50px;
+}
+
+.board>div {
+    border: 1px solid #183D3D;
+}
+
+.cell {
+    width: 30px; /* Adjust the width and height as needed */
+    height: 30px;
+    border: 1px solid #000; /* Add borders for cell separation */
+    text-align: center;
+    vertical-align: middle;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.ship {
+    background-color: #3498db;
+    color: white;
+}
+
+.hit {
+    background-color: red;
+    color: white;
+}
+
+.miss {
+    background-color: #f1c40f;
+    color: #333;
+}
+
+.hide {
+    display: none;
+}
