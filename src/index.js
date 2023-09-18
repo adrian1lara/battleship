@@ -120,6 +120,8 @@ document.addEventListener('DOMContentLoaded', () => {
         
 
         messageElement.textContent = '';
+
+        messageElement.classList.remove('hide');
         
         controlsElement.classList.add('hide');
 
