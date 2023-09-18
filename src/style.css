@@ -3,6 +3,25 @@
     padding: 0;
 }
 
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.start-game {
+    padding: 5%;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-weight: bold;  
+    text-transform: uppercase;
+    margin: 10px;
+}
+
 .game-container {
     display: flex;
 }
