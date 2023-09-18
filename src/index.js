@@ -1,6 +1,6 @@
-const Player = require('./Player');
-const ComputerPlayer = require('./ComputerPlayer');
-const Ship = require('./ship');
+
+const ComputerPlayer = require('./computerPlayer');
+const Player = require('./player');
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -9,12 +9,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageElement = document.getElementById('message');
     const startGameButton = document.getElementById('start-game');
 
-    const player = new Player('Player 1');
-    const computerPlayer = new ComputerPlayer();
+    let player;
+    let computerPlayer;
+
+    function resetGame() {
+        player = new Player('Player 1');
+        computerPlayer = new ComputerPlayer();
+        initializeBoards();
+        renderGameBoards();
+    }
+    function initializeBoards() {
+        player.gameBoard.populateComputerBoard();
+        computerPlayer.gameBoard.populateComputerBoard();
+    }
 
     function renderGameBoards() {
-        renderBoard(player.gameBoard.grid, playerBoardElement, 'player');
+
+        renderBoard(player.gameBoard.grid, playerBoardElement, player.playerName);
         renderBoard(computerPlayer.gameBoard.grid, computerBoardElement, 'computer');
+
     }
 
     function renderBoard(board, containerElement, playerName) {
@@ -30,31 +43,50 @@ document.addEventListener('DOMContentLoaded', () => {
                 const cellValue = board[x][y];
                 cell.textContent = cellValue;
 
+                if(cellValue === 'S') {
+                    cell.classList.add('ship');
+                }
+                if(cellValue === 'X') {
+                    cell.classList.add('hit');
+                }
+                if(cellValue === 'o') {
+                    cell.classList.add('miss');
+                }
+                
                 if (cellValue === 'S' && playerName === 'computer') {
+                    cell.classList.remove('ship');
                     cell.textContent = ''; // Hide computer's ships
                 }
 
                 cell.addEventListener('click', () => {
-                    if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) {
+                    if (containerElement === playerBoardElement) {
+                        // if the player clicks on their own board
+                        return;
+                    }
+
+                    if (!cell.classList.contains('hit') && !cell.classList.contains('miss')) { // Check if the cell has already been attacked
                         const clickedX = parseInt(cell.dataset.x);
                         const clickedY = parseInt(cell.dataset.y);
-
+                
                         const attackResult = player.attack(computerPlayer.gameBoard, clickedX, clickedY);
-                        computerPlayer.attack(player.gameBoard);
-
+                
                         if (attackResult) {
+                            computerPlayer.attack(player.gameBoard);
                             messageElement.textContent = '¡Has acertado un barco!';
                         } else {
+                            computerPlayer.attack(player.gameBoard);
                             messageElement.textContent = '¡Has fallado!';
                         }
-
+                
                         if (player.gameBoard.isGameOver() || computerPlayer.gameBoard.isGameOver()) {
                             endGame();
                         }
-
+                
                         renderGameBoards();
                     }
                 });
+
+
 
                 containerElement.appendChild(cell);
             }
@@ -62,25 +94,32 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function endGame() {
-        messageElement.textContent = '¡Fin del juego!';
-
+        if(player.gameBoard.isGameOver()) {
+            messageElement.textContent = 'Perdiste!';
+        } else {
+            messageElement.textContent = '¡Ganaste!';
+        }
+        
+        startGameButton.classList.remove('hide');
+        
         const cells = document.querySelectorAll('.cell');
         cells.forEach(cell => {
             cell.removeEventListener('click', handleClick);
         });
 
-        startGameButton.classList.remove('hide');
+
+        resetGame();
     }
 
+
     startGameButton.addEventListener('click', () => {
-        player.gameBoard.populateComputerBoard();
-        computerPlayer.gameBoard.populateComputerBoard();
-        renderGameBoards();
+
+        resetGame();
+        
 
         messageElement.textContent = '';
 
         startGameButton.classList.add('hide');
-    });
 
-    renderGameBoards();
+    });
 });
