@@ -1,6 +1,7 @@
 
-const ComputerPlayer = require('../src/ComputerPlayer');
-const Player = require('../src/Player');
+
+const ComputerPlayer = require('../src/computerPlayer');
+const Player = require('../src/player');
 
 // Mock the receiveAttack method for the GameBoard
 class MockGameBoard {
