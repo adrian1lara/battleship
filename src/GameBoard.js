@@ -89,13 +89,18 @@ class GameBoard {
     }
 
     isGameOver() {
-        for (const ship of this.ships) {
-            if (!ship.isSunk()) {
-                return false;
+        // Check if all ships have been sunk on the game board
+        for (let x = 0; x < this.grid.length; x++) {
+            for (let y = 0; y < this.grid[x].length; y++) {
+                if (this.grid[x][y] === 'S') {
+                    return false; // At least one ship is still on the game board
+                }
             }
         }
-        return true;
+
+        return true; // All ships have been sunk
     }
+
 }
 
 module.exports = GameBoard;
